@@ -97,7 +97,8 @@ def get_all_future_orders():
         FROM orders
         WHERE date >= date('now') AND status='active'
         ORDER BY date, slot
-    ''')    orders = cur.fetchall()
+    ''')   
+    orders = cur.fetchall()
     conn.close()
     return orders
 
