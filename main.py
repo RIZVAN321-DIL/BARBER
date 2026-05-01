@@ -293,7 +293,8 @@ async def confirm_booking(callback: CallbackQuery, state: FSMContext):
     else:
         await callback.message.answer("Меню", reply_markup=main_menu())
 
-@dp.callback_query(F.data == "confirm_no", StateFilter(BookingState.ready_to_book))async def cancel_booking(callback: CallbackQuery, state: FSMContext):
+@dp.callback_query(F.data == "confirm_no", StateFilter(BookingState.ready_to_book))
+async def cancel_booking(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text("❌ Запись отменена.")
     await state.clear()
     if callback.from_user.id == ADMIN_ID:
