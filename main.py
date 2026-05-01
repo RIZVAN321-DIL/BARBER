@@ -343,7 +343,8 @@ async def cancel_my_order(callback: CallbackQuery):
 
 # ---------- АДМИН: ВСЕ ЗАПИСИ ----------
 @dp.message(F.text == "📋 Все записи")
-async def admin_all_orders(message: Message):    if message.from_user.id != ADMIN_ID:
+async def admin_all_orders(message: Message):   
+    if message.from_user.id != ADMIN_ID:
         return
     orders = get_all_future_orders()
     if not orders:
