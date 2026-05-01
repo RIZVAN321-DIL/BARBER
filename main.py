@@ -47,7 +47,8 @@ def validate_phone(phone_raw: str) -> bool:
 
 # ---------- FSM СОСТОЯНИЯ ----------
 class BookingState(StatesGroup):
-    service = State()    date = State()
+    service = State() 
+    date = State()
     slot = State()
     name = State()
     phone = State()
