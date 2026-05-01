@@ -47,7 +47,8 @@ def is_slot_free(date_str, slot):
     return free
 
 def book_slot(date_str, slot, user_id, service, client_name="", phone=""):
-    """Бронирует слот с атомарной транзакцией"""    conn = sqlite3.connect(DB_NAME)
+    """Бронирует слот с атомарной транзакцией"""   
+    conn = sqlite3.connect(DB_NAME)
     try:
         cur = conn.cursor()
         cur.execute("INSERT INTO bookings (date, slot) VALUES (?, ?)", (date_str, slot))
