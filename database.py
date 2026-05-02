@@ -46,7 +46,6 @@ def init_db():
     logger.info("База данных инициализирована")
 
 def is_slot_free(date_str, slot):
-    """Слот свободен, если нет в bookings и нет в blocked_slots."""
     conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
     cur.execute("SELECT 1 FROM bookings WHERE date=? AND slot=?", (date_str, slot))
@@ -62,7 +61,6 @@ def book_slot(date_str, slot, user_id, service, client_name="", phone=""):
     conn = sqlite3.connect(DB_NAME)
     try:
         cur = conn.cursor()
-        # ещё раз проверим, что слот не занят и не заблокирован
         cur.execute("SELECT 1 FROM bookings WHERE date=? AND slot=?", (date_str, slot))
         if cur.fetchone():
             return False
@@ -85,11 +83,11 @@ def book_slot(date_str, slot, user_id, service, client_name="", phone=""):
         conn.close()
 
 def block_day(date_str):
-    """Заблокировать все слоты на указанную дату."""
+    """Заблокировать все слоты на указанную дату (если нет активных записей)."""
     conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
-    # Проверяем, есть ли активные записи на эту дату
-    cur.execute("SELECT 1 FROM bookings WHERE date=? AND status='active'", (date_str,))
+    # Проверяем, есть ли активные записи на эту дату (таблица orders)
+    cur.execute("SELECT 1 FROM orders WHERE date=? AND status='active'", (date_str,))
     if cur.fetchone():
         conn.close()
         return False, "has_bookings"
