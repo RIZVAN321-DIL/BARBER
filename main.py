@@ -135,12 +135,12 @@ async def ignore_callback(callback: CallbackQuery):
 async def calendar_prev(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     parts = callback.data.split("_")
-    if len(parts) != 3:
+    if len(parts) != 4:
         logger.error(f"Неверный формат callback: {callback.data}")
         return
     try:
-        year = int(parts[1])
-        month = int(parts[2])
+        year = int(parts[2])
+        month = int(parts[3])
     except:
         logger.error(f"Ошибка преобразования year/month: {parts}")
         return
@@ -161,12 +161,12 @@ async def calendar_prev(callback: CallbackQuery, state: FSMContext):
 async def calendar_next(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     parts = callback.data.split("_")
-    if len(parts) != 3:
+    if len(parts) != 4:
         logger.error(f"Неверный формат callback: {callback.data}")
         return
     try:
-        year = int(parts[1])
-        month = int(parts[2])
+        year = int(parts[2])
+        month = int(parts[3])
     except:
         logger.error(f"Ошибка преобразования year/month: {parts}")
         return
