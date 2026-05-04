@@ -5,7 +5,7 @@ TIMEZONE = ZoneInfo("Europe/Moscow")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 ADMIN_ID = int(os.getenv("ADMIN_ID", 0))
-MASTER_PHONE = os.getenv("MASTER_PHONE", "+7 (900) 123-45-67")
+MASTER_PHONE = os.getenv("MASTER_PHONE", "+79788951193")
 
 WORK_START_HOUR = 8
 WORK_END_HOUR = 17
