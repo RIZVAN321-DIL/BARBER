@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Барбершоп – запись</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .service-card {
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid var(--tg-theme-hint-color, #dddddd);
+        }
+        .service-card:active {
+            background: var(--tg-theme-button-color, #40a7e3);
+            color: var(--tg-theme-button-text-color, #ffffff);
+        }
+        .service-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .service-desc {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #6c6c6c);
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--tg-theme-hint-color, #cccccc);
+            border-radius: 12px;
+            font-size: 16px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            box-sizing: border-box;
+        }
+        button {
+            background: var(--tg-theme-button-color, #40a7e3);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="service-selection">
+        <h2>Выберите услугу</h2>
+        <div class="service-card" data-service="Стрижка">
+            <div class="service-title">💇‍♂️ Стрижка</div>
+            <div class="service-desc">Классическая или модельная стрижка</div>
+        </div>
+        <div class="service-card" data-service="Борода">
+            <div class="service-title">🧔 Борода</div>
+            <div class="service-desc">Оформление, коррекция, уход</div>
+        </div>
+        <div class="service-card" data-service="Стрижка + Борода">
+            <div class="service-title">💇‍♂️+🧔 Стрижка + Борода</div>
+            <div class="service-desc">Полный образ за один визит</div>
+        </div>
+    </div>
+
+    <div id="user-info" class="hidden">
+        <h2>Ваши данные</h2>
+        <div class="input-group">
+            <label>Ваше имя</label>
+            <input type="text" id="name" placeholder="Иван" autocomplete="name">
+        </div>
+        <div class="input-group">
+            <label>Номер телефона</label>
+            <input type="tel" id="phone" placeholder="+7 900 123 45 67" autocomplete="tel">
+        </div>
+        <button id="submit-btn">✅ Записаться</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.enableClosingConfirmation();
+
+        let selectedService = null;
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', () => {
+                selectedService = card.getAttribute('data-service');
+                document.getElementById('service-selection').classList.add('hidden');
+                document.getElementById('user-info').classList.remove('hidden');
+            });
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', () => {
+            let name = document.getElementById('name').value.trim();
+            let phone = document.getElementById('phone').value.trim();
+
+            if (!name || name.length < 2) {
+                tg.showAlert('Пожалуйста, введите ваше имя (минимум 2 символа)');
+                return;
+            }
+            if (!phone || phone.length < 5) {
+                tg.showAlert('Введите корректный номер телефона');
+                return;
+            }
+
+            let data = {
+                service: selectedService,
+                name: name,
+                phone: phone
+            };
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        });
+    </script>
+</body>
+</html>
