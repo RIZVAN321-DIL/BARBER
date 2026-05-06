@@ -17,5 +17,5 @@ BLOCK_SYMBOL = "❌"
 SERVICES = ["Стрижка", "Борода", "Стрижка + Борода"]
 
 # ⚠️ ЗАМЕНИТЕ НА РЕАЛЬНЫЕ HTTPS-АДРЕСА ВАШИХ WEBAPP
-CLIENT_WEBAPP_URL = "https://ваш-домен.com/webapp.html"
-ADMIN_WEBAPP_URL = "https://ваш-домен.com/admin.html"
+CLIENT_WEBAPP_URL = os.getenv("CLIENT_WEBAPP_URL","")
+ADMIN_WEBAPP_URL = os.getenv("ADMIN_WEBAPP_URL","")
